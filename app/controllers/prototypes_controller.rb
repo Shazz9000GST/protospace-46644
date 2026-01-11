@@ -31,11 +31,12 @@ class PrototypesController < ApplicationController
   end
 
   def update
+    @prototype = Prototype.find(params[:id])
     if @prototype.update(prototype_params)
       redirect_to prototype_path(@prototype)
       return
     end
-    render :edit
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
@@ -54,7 +55,7 @@ class PrototypesController < ApplicationController
     end
     
     def contributor_confirmation
-      unless user_signed_in?
+      if user_signed_in?
       else
         redirect_to root_path
       end
